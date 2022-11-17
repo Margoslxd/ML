@@ -1,0 +1,169 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5c1bbf20",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "df = pd.read_csv('C:\\\\Users\\\\pranv\\\\Downloads\\\\temperatures.csv')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "7834704d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "96d8d711",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "X = df[['YEAR']]\n",
+    "Y = df[['JAN']]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "47b327c0",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.model_selection import train_test_split\n",
+    "xTrain, xTest, yTrain, yTest = train_test_split(X, Y, test_size=0.2)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "8a77647b",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn import linear_model, metrics\n",
+    "reg = linear_model.LinearRegression()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "d5fd2085",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "model = reg.fit(xTrain, yTrain)\n",
+    "print(model.intercept_)\n",
+    "print(model.coef_)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "37954ee8",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "yPredict = model.predict(xTest)\n",
+    "print(\"Predicted Data: \", yPredict)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ae0aa584",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import matplotlib.pyplot as plt\n",
+    "plt.scatter(xTrain, yTrain, color=\"blue\")\n",
+    "plt.title(\"Year vs Month Temperatures\")\n",
+    "plt.xlabel('Year')\n",
+    "plt.ylabel('Temperature')\n",
+    "plt.plot(xTrain, reg.predict(xTrain), color=\"red\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "96fa71e7",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.metrics import mean_squared_error\n",
+    "err = mean_squared_error(yTest, yPredict)\n",
+    "print(\"Mean Squared Error: \", err)\n",
+    "print(\"Root Mean Squared Error: \", np.sqrt(err))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "4a963122",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.metrics import r2_score\n",
+    "r2 = r2_score(yTest, yPredict)\n",
+    "n = len(xTest)\n",
+    "adjusted_r2 = ((1 - r2) * (n - 1)/(n - 1 -1))\n",
+    "print(\"Adjusted R2: \", adjusted_r2)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "592437bb",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "mse = metrics.mean_squared_error(yTest, yPredict)\n",
+    "print('MSE: ', mse)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "3cd98b79",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3.10.0 64-bit",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.10.0"
+  },
+  "vscode": {
+   "interpreter": {
+    "hash": "26de051ba29f2982a8de78e945f0abaf191376122a1563185a90213a26c5da77"
+   }
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
